@@ -1,8 +1,8 @@
 <?php
-include_once('includes/functions.php');
+include_once('../includes/functions.php');
 date_default_timezone_set('Asia/Kolkata');
 $function = new functions;
-include_once('includes/custom-functions.php');
+include_once('../includes/custom-functions.php');
 $fn = new custom_functions;
 
 if (isset($_GET['id'])) {
@@ -18,18 +18,20 @@ if (isset($_POST['btnUpdate'])) {
         $name = (isset($_POST['name'])) ? $db->escapeString($fn->xss_clean($_POST['name'])) : "";
         $student_age= (isset($_POST['student_age'])) ? $db->escapeString($fn->xss_clean($_POST['student_age'])) : "";
         $class = (isset($_POST['class'])) ? $db->escapeString($fn->xss_clean($_POST['class'])) : "";
-        $parent_mobile = (isset($_POST['parent_mobile'])) ? $db->escapeString($fn->xss_clean($_POST['parent_mobile'])) : "";
+        $school_name = (isset($_POST['school_name'])) ? $db->escapeString($fn->xss_clean($_POST['school_name'])) : "";
+        $school_address = (isset($_POST['school_address'])) ? $db->escapeString($fn->xss_clean($_POST['school_address'])) : "";
+        $aadhar_number = (isset($_POST['aadhar_number'])) ? $db->escapeString($fn->xss_clean($_POST['aadhar_number'])) : "";
+        $profile = (isset($_POST['profile'])) ? $db->escapeString($fn->xss_clean($_POST['profile'])) : "";
+        $parent_name = (isset($_POST['parent_name'])) ? $db->escapeString($fn->xss_clean($_POST['parent_name'])) : "";
+        $parent_phone_number = (isset($_POST['parent_phone_number'])) ? $db->escapeString($fn->xss_clean($_POST['parent_phone_number'])) : "";
         $email= (isset($_POST['email'])) ? $db->escapeString($fn->xss_clean($_POST['email'])) : "";
         $password= (isset($_POST['password'])) ? $db->escapeString($fn->xss_clean($_POST['password'])) : "";
-		$aadhar_number = (isset($_POST['aadhar_number'])) ? $db->escapeString($fn->xss_clean($_POST['aadhar_number'])) : "";
-        $school_name = (isset($_POST['school_name'])) ? $db->escapeString($fn->xss_clean($_POST['school_name'])) : "";
-        $address = (isset($_POST['address'])) ? $db->escapeString($fn->xss_clean($_POST['address'])) : "";
-		$profile = (isset($_POST['profile'])) ? $db->escapeString($fn->xss_clean($_POST['profile'])) : "";
-        $status = (isset($_POST['status'])) ? $db->escapeString($fn->xss_clean($_POST['status'])) : "";
-        $description = (isset($_POST['description'])) ? $db->escapeString($fn->xss_clean($_POST['description'])) : "";
+		$utr_number = (isset($_POST['utr_number'])) ? $db->escapeString($fn->xss_clean($_POST['utr_number'])) : "";
+		 $status = (isset($_POST['status'])) ? $db->escapeString($fn->xss_clean($_POST['status'])) : "";
+       
     
       
-        $sql = "UPDATE students SET name='$name',student_age='$student_age',class='$class',parent_mobile='$parent_mobile',email='$email',password='$password',aadhar_number='$aadhar_number',school_name='$school_name',address='$address',profile='$profile',status='$status',description='$description' WHERE id='$ID'";
+        $sql = "UPDATE students SET name='$name',student_age='$student_age',class='$class',school_name='$school_name',school_address='$school_address',aadhar_number='$aadhar_number',profile='$profile',parent_name='$parent_name',parent_phone_number='$parent_phone_number',email='$email',password='$password',utr_number='$utr_number',status='$status' WHERE id='$ID'";
         $db->sql($sql);
         $students_result = $db->getResult();
         if (!empty($students_result)) {
@@ -99,10 +101,47 @@ foreach ($res as $row)
                             </div>
                             <div class="col-md-4">
                                   <div class="form-group">
-                                        <label for="exampleInputEmail1">Parent Phone Number</label> <?php echo isset($error['parent_mobile']) ? $error['parent_mobile'] : ''; ?>
-                                        <input type="number" class="form-control" name="parent_mobile" id="parent_mobile" value="<?php echo $data['parent_mobile']?>">
+                                        <label for="exampleInputEmail1">School Name</label> <?php echo isset($error['school_name']) ? $error['school_name'] : ''; ?>
+                                        <input type="text" class="form-control" name="school_name" id="school_name" value="<?php echo $data['school_name']?>">
                                   </div>
                             </div>
+                       </div>
+                       <div class="row">
+                            <div class="col-md-4">
+                                  <div class="form-group">
+                                        <label for="exampleInputEmail1">School Address</label> <?php echo isset($error['school_address']) ? $error['school_address'] : ''; ?>
+                                        <input type="text" class="form-control" name="school_address" id="school_address" value="<?php echo $data['school_address']?>">
+                                  </div>
+                            </div>
+                            <div class="col-md-4">
+                                  <div class="form-group">
+                                        <label for="exampleInputEmail1">Student Aadhar Number</label> <?php echo isset($error['aadhar_number']) ? $error['aadhar_number'] : ''; ?>
+                                        <input type="text" class="form-control" name="aadhar_number" id="aadhar_number" value="<?php echo $data['aadhar_number']?>">
+                                  </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                             <div class="col-md-4">
+                                  <div class="form-group">
+                                        <label for="exampleInputEmail1">Student Photo</label> <?php echo isset($error['profile']) ? $error['profile'] : ''; ?>
+                                        <input type="file" class="form-control" name="profile" id="profile" value="<?php echo $data['profile']?>">
+                                  </div>
+                             </div>
+                             <div class="col-md-4">
+                                  <div class="form-group">
+                                        <label for="exampleInputEmail1">Parent Name</label> <?php echo isset($error['parent_name']) ? $error['parent_name'] : ''; ?>
+                                        <input type="text" class="form-control" name="parent_name" id="parent_name" value="<?php echo $data['parent_name']?>">
+                                  </div>
+                             </div>
+                        </div>
+                        <div class="row">
+                             <div class="col-md-4">
+                                  <div class="form-group">
+                                        <label for="exampleInputEmail1">Parent Phone Number</label> <?php echo isset($error['parent_phone_number']) ? $error['parent_phone_number'] : ''; ?>
+                                        <input type="number" class="form-control" name="parent_phone_number" id="parent_phone_number" value="<?php echo $data['parent_phone_number']?>">
+                                  </div>
+                             </div>
+                            
                         </div>
                         <div class="row">
                             <div class="col-md-4">
@@ -119,44 +158,14 @@ foreach ($res as $row)
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4">
-                                  <div class="form-group">
-                                        <label for="exampleInputEmail1">Student Aadhar Number</label> <?php echo isset($error['aadhar_number']) ? $error['aadhar_number'] : ''; ?>
-                                        <input type="text" class="form-control" name="aadhar_number" id="aadhar_number" value="<?php echo $data['aadhar_number']?>">
-                                  </div>
-                            </div>
-                            <div class="col-md-4">
-                                  <div class="form-group">
-                                        <label for="exampleInputEmail1">School Name</label> <?php echo isset($error['school_name']) ? $error['school_name'] : ''; ?>
-                                        <input type="text" class="form-control" name="school_name" id="school_name" value="<?php echo $data['school_name']?>">
-                                  </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                  <div class="form-group">
-                                        <label for="exampleInputEmail1">Address</label> <?php echo isset($error['address']) ? $error['address'] : ''; ?>
-                                        <input type="text" class="form-control" name="address" id="address" value="<?php echo $data['address']?>">
-                                  </div>
-                            </div>
-                            <div class="col-md-4">
-                                  <div class="form-group">
-                                        <label for="exampleInputEmail1">Student Photo</label> <?php echo isset($error['profile']) ? $error['profile'] : ''; ?>
-                                        <input type="file" class="form-control" name="profile" id="profile" value="<?php echo $data['profile']?>">
-                                  </div>
-                            </div>
-                        </div>
-                        <div class="row">
                             <div class="col-md-8">
                                   <div class="form-group">
-                                        <label for="exampleInputEmail1">Description</label> <?php echo isset($error['description']) ? $error['description'] : ''; ?>
-                                        <input type="text" class="form-control" name="description" id="description" value="<?php echo $data['description']?>">
+                                        <label for="exampleInputEmail1">UTR Number</label> <?php echo isset($error['utr_number']) ? $error['utr_number'] : ''; ?>
+                                        <input type="text" class="form-control" name="utr_number" id="utr_number" value="<?php echo $data['utr_number']?>">
                                   </div>
                             </div>
                         </div>
-                       
-                    </div>
-                    <div class="row">
+                        <div class="row">
                                 <div class="form-group col-md-5">
                                     <div class="form-group">
                                         <label class="control-label">Status</label>
@@ -173,8 +182,7 @@ foreach ($res as $row)
                                 <!-- </div> -->
 
                                 <!-- </div> -->
-
-                            </div>
+                       </div>
 
 
                     <!-- /.box-body -->

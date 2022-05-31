@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 28, 2022 at 05:18 AM
+-- Generation Time: May 31, 2022 at 01:17 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -32,25 +32,26 @@ CREATE TABLE `students` (
   `name` text DEFAULT NULL,
   `student_age` text DEFAULT NULL,
   `class` text DEFAULT NULL,
-  `parent_mobile` text DEFAULT NULL,
+  `school_name` text DEFAULT NULL,
+  `school_address` text DEFAULT NULL,
+  `aadhar_number` text DEFAULT NULL,
+  `profile` text DEFAULT NULL,
+  `parent_name` text DEFAULT NULL,
+  `parent_phone_number` text DEFAULT NULL,
   `email` text DEFAULT NULL,
   `password` text NOT NULL,
-  `aadhar_number` text DEFAULT NULL,
-  `school_name` text DEFAULT NULL,
-  `address` text DEFAULT NULL,
-  `profile` text DEFAULT NULL,
-  `status` tinyint(4) DEFAULT NULL,
-  `description` text DEFAULT NULL
+  `utr_number` text DEFAULT NULL,
+  `status` tinyint(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `students`
 --
 
-INSERT INTO `students` (`id`, `name`, `student_age`, `class`, `parent_mobile`, `email`, `password`, `aadhar_number`, `school_name`, `address`, `profile`, `status`, `description`) VALUES
-(1, 'Divakar S', '20', 'HSC', '7358832695', 'divakarvan03@gmail.com', '123456', '765498764323', 'GHSS', '2/42, Azhagapuri,East street', '', 1, NULL),
-(2, 'Prasad', '20', '10th', '9878787667', 'jp@gmail.com', '1234567890', '1234567890', 'KVMS', 'strerett line', 'upload/profile/1036-2022-05-28.jpg', NULL, 'YOur Not Pay Amount'),
-(3, 'Divakar', '24', '10th', '9887675656', 'diva@gmail.com', '1234567890', '23243434', 'kvms', 'sdfd bggg', '', 1, 'wwdwdw');
+INSERT INTO `students` (`id`, `name`, `student_age`, `class`, `school_name`, `school_address`, `aadhar_number`, `profile`, `parent_name`, `parent_phone_number`, `email`, `password`, `utr_number`, `status`) VALUES
+(1, 'Divakar S', '20', 'HSC', 'GHSS', '2/42, Azhagapuri,East street', '765498764323', '', NULL, '7358832695', 'divakarvan03@gmail.com', '123456', NULL, NULL),
+(2, 'france', '23', '12th', 'GHSS', 'R.T.mALAI', '765498764323', 'upload/profile/0379-2022-05-31.png', 'GENSY', '8428225519', 'divakarvan03@gmail.com', '1234567', '3467888', 2),
+(3, 'dd', '22', 'edfe', 'ffr', 'feef', 'fd3434', '', '', '323232', 'deepa@care.ac.in', '2323232', 'edef', 1);
 
 --
 -- Indexes for dumped tables

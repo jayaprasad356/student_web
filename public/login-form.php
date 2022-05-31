@@ -1,79 +1,82 @@
 <?php
+if (isset($_SESSION['seller_id']) && isset($_SESSION['seller_name'])) {
+    header("location:home.php");
+}
+
 if (isset($_POST['btnLogin'])) {
 
-    // get email and password
-    $email = $db->escapeString(($_POST['email']));
-    $password = $db->escapeString(($_POST['password']));
+    $email = $db->escapeString($_POST['email']);
+    $password = $db->escapeString($_POST['password']);
 
-    // set time for session timeout
     $currentTime = time() + 25200;
     $expired = 3600;
 
-    // create array variable to handle error
     $error = array();
 
-    // check whether $email is empty or not
     if (empty($email)) {
-        $error['email'] = "*Email should be filled.";
+        $error['email'] = " <span class='label label-danger'>Email should be filled!</span>";
     }
 
-    // check whether $password is empty or not
     if (empty($password)) {
-        $error['password'] = "*Password should be filled.";
+        $error['password'] = " <span class='label label-danger'>Password should be filled!</span>";
     }
 
-    // if email and password is not empty, check in database
-    // if email and password is not empty, check in database
     if (!empty($email) && !empty($password)) {
-        if($email == 'admin@gmail.com' && $password == 'admin123'){
-            $_SESSION['id'] = '1';
-            $_SESSION['role'] ='admin';
-            $_SESSION['username'] = 'student_web';
-            $_SESSION['email'] = 'admin@gmail.com';
-            $_SESSION['timeout'] = $currentTime + $expired;
-            header("location: home.php");
-            
-        }
-        else{
-            $error['failed'] = "<span class='label label-danger'>Invalid Email or Password!</span>";
+
+        $sql_query = "SELECT * FROM students WHERE email = '" . $email . "' AND password = '" . $password . "'";
+
+        $db->sql($sql_query);
+
+        $res = $db->getResult();
+        $num = $db->numRows($res);
+
+        if ($num == 1) {
+            $_SESSION['status'] = $res[0]['name'];
+            $_SESSION['id'] = $res[0]['id'];
+            $_SESSION['description'] = $res[0]['description'];
+            header("location: dashboard.php");
+        } else {
+            $error['failed'] = "<span class='btn btn-danger'>Invalid Email or Password!</span>";
         }
     }
 }
 ?>
-<div class="col-md-4 col-md-offset-4 " style="margin-top:150px;">
-	<!-- general form elements -->
-	<div class='row'>
-		<div class="col-md-12 text-center">
-			<img src="./img/logo.png" height="110">
-			<h3>Student Web Dashboard</h3>
-		</div>
-		<div class="box box-info col-md-12">
-			<div class="box-header with-border">
-				<h3 class="box-title">Administrator Login</h3>
-				<center><?php echo isset($error['failed']) ? $error['failed'] : ''; ?></center>
-			</div><!-- /.box-header -->
-			<!-- form start -->
-			<form method="post" enctype="multipart/form-data">
-				<div class="box-body">
-					<div class="form-group">
-						<label for="exampleInputEmail1">Email :</label>
-						<input type="email" name="email" class="form-control" value="" required>
-					</div>
-					<div class="form-group">
-						<label for="exampleInputEmail1">Password :</label>
-						<input type="password" class="form-control" name="password" value="" required>
-					</div>
-					<div class="box-footer">
-						<!-- <a href="home.php" class="btn btn-info pull-left">
-							Login
-						
-						</a> -->
-						<button type="submit" name="btnLogin" class="btn btn-info pull-left">Login</button>
-						<!-- 
-						<a href="forgot-password.php" class="pull-right">Forgot Password?</a> -->
-					</div>
-				</div>
-			</form>
-		</div><!-- /.box -->
-	</div>
+<div class="col-md-4 col-md-offset-4 " style="margin-top:80px;">
+    <div class='row'>
+        <div class="col-md-12 text-center">
+            <img src="../img/logo.png" height="110">
+            
+        </div>
+        
+        <div class="box box-info col-md-12 ">
+            <div class="box-header with-border ">
+                <h3 class="box-title">Student Login</h3>
+            </div>
+            <form method="post" enctype="multipart/form-data">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Email</label><?php echo isset($error['email']) ? $error['email'] : ''; ?>
+                        <input type="text" name="email" id="email" class="form-control" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Password :</label><?php echo isset($error['password']) ? $error['password'] : ''; ?>
+                        <input type="password" class="form-control" name="password" value=""><br>
+                    </div>
+                    <center><?php echo isset($error['failed']) ? $error['failed'] : ''; ?></center>
+                    <center><?php echo isset($error['failed_status']) ? $error['failed_status'] : ''; ?></center>
+                    <div class="box-footer">
+                        <button type="submit" name="btnLogin" class="btn btn-info pull-left">Login</button>
+                    </div>
+                    <div class="box-footer">
+                        <a href="sign-up.php" class="btn pull-left">Create Student Account?</a>
+                        <!-- <a href="forgot-password.php" class="btn pull-right">Forgot password?</a> -->
+
+                    </div>
+                
+                   
+            </form>
+        </div>
+    </div>
 </div>
+</div>
+

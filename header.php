@@ -1,8 +1,18 @@
-<?php include_once('includes/crud.php');
+<?php 
+if (!isset($_SESSION['seller_id']) && !isset($_SESSION['seller_name'])) {
+    header("location:index.php");
+}
+include_once('includes/crud.php');
 $db = new Database();
 $db->connect();
 $db->sql("SET NAMES 'utf8'");
 
+$Id = $_SESSION['seller_id'];
+$sql = "SELECT * FROM seller WHERE id=" . $Id;
+$db->sql($sql);
+$result = $db->getResult();
+$_SESSION['expiry_date'] = $result[0]['valid'];
+$path = 'upload/seller/';
 
 ?>
 <!DOCTYPE html>
@@ -11,13 +21,13 @@ $db->sql("SET NAMES 'utf8'");
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="icon" type="image/ico" href="./img/logo.png">
+    <link rel="icon" type="image/ico" href="../img/logo.png">
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
     <!-- Bootstrap 3.3.5 -->
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="bootstrap/css/custom.css">
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../bootstrap/css/custom.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <!-- Ionicons -->
@@ -25,17 +35,17 @@ $db->sql("SET NAMES 'utf8'");
 
 
     <!-- Theme style -->
-    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
-    <link href="dist/css/multiple-select.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
+    <link href="../dist/css/multiple-select.css" rel="stylesheet" />
     <!--<link rel="stylesheet" href="plugins/select2/select2.min.css">-->
     <!--	 <link rel="stylesheet" href="plugins/select2/select2.min.css">=
         <link rel="stylesheet" href="plugins/select2/select2.css">-->
     <!-- AdminLTE Skins. Choose a skin from the css/skins
             folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="dist/css/print.css" type="text/css" media="print">
-    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="../dist/css/print.css" type="text/css" media="print">
+    <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css">
     <!-- iCheck -->
-    <link rel="stylesheet" href="plugins/iCheck/flat/blue.css">
+    <link rel="stylesheet" href="../plugins/iCheck/flat/blue.css">
     <!-- Morris chart 
 		<script src="//code.jquery.com/jquery-1.10.2.js"></script>-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -61,15 +71,15 @@ $db->sql("SET NAMES 'utf8'");
         }
     </script>
     <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
-    <link rel="stylesheet" href="plugins/morris/morris.css">
+    <link rel="stylesheet" href="../plugins/morris/morris.css">
     <!-- jvectormap -->
-    <link rel="stylesheet" href="plugins/jvectormap/jquery-jvectormap-1.2.2.css">
+    <link rel="stylesheet" href="../plugins/jvectormap/jquery-jvectormap-1.2.2.css">
     <!-- Date Picker -->
-    <link rel="stylesheet" href="plugins/datepicker/datepicker3.css">
+    <link rel="stylesheet" href="../plugins/datepicker/datepicker3.css">
     <!-- Daterange picker -->
-    <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker-bs3.css">
+    <link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker-bs3.css">
     <!-- bootstrap wysihtml5 - text editor -->
-    <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+    <link rel="stylesheet" href="../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -92,25 +102,24 @@ $db->sql("SET NAMES 'utf8'");
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.1/js/lightbox.min.js" integrity="sha256-CtKylYan+AJuoH8jrMht1+1PMhMqrKnB8K5g012WN5I=" crossorigin="anonymous"></script>
 </head>
 
-<body class="hold-transition skin-blue fixed sidebar-mini">
+<body class="hold-transition skin-blue fixed sidebar-mini" >
     <div class="wrapper">
         
         <header class="main-header">
             <!-- Logo -->
             <a href="home.php" class="logo">
-                
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini">
-                    <img src="./img/sminilogo.png"  alt="User Image">
+                    <img src="../img/sminilogo.png"  alt="User Image">
                     
                 </span>
                 <!-- logo for regular state and mobile devices -->
-                <img src="./img/slogo.png"  alt="User Image">
+                <img src="../img/slogo.png"  alt="User Image">
                 
                 <span class="logo-lg">
                 
                     
-                    <h3>Student</h3>
+                    <h3>Smart Gold</h3>
                 </span>
             </a>
             <!-- Header Navbar: style can be found in header.less -->
@@ -125,16 +134,16 @@ $db->sql("SET NAMES 'utf8'");
                         
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <img src="./img/logo.png" class="user-image" alt="User Image">
-                                   
+                                    <img src="<?php echo DOMAIN_URL . $path . $result[0]['logo'] ?>" class="user-image" alt="User Image">
+                                    <span class="hidden-xs"><?php echo $result[0]['store_name'] ?></span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <!-- User image -->
                                     <li class="user-header">
-                                        <img src="./img/logo.png" class="img-circle" alt="User Image">
+                                        <img src="<?php echo DOMAIN_URL . $path . $result[0]['logo'] ?>" class="img-circle" alt="User Image">
                                         <p>
-                                            
-                                            <small><?php echo $_SESSION['email'] ?></small>
+                                            <?php echo $result[0]['store_name'] ?>
+                                            <small><?php echo $result[0]['email'] ?></small>
                                         </p>
                                     </li>
                                     <li class="user-footer">
@@ -142,6 +151,9 @@ $db->sql("SET NAMES 'utf8'");
                                             <a href="admin-profile.php" class="btn btn-default btn-flat"> Edit Profile</a>
                                         </div> -->
                                         <div class="pull-left">
+                                            <a href="profile.php" class="btn btn-primary btn-flat">Profile</a>
+                                        </div>
+                                        <div class="pull-right">
                                             <a href="logout.php" class="btn btn-primary btn-flat">Log out</a>
                                         </div>
                                     </li>
@@ -154,28 +166,17 @@ $db->sql("SET NAMES 'utf8'");
             </nav>
         </header>
         <!-- Left side column. contains the logo and sidebar -->
-        <aside class="main-sidebar">
+        <aside class="main-sidebar" style="background-color:#3E2723#ffc282;">
             <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
             
-            <ul class="sidebar-menu">
+            <ul class="sidebar-menu" >
                 <li class="treeview">
                     <a href="home.php">
                         <i class="fa fa-home" class="active"></i> <span>Home</span>
                     </a>
                 </li>
-                <li class="treeview">
-                    <a href="students.php">
-                        <i class="fa fa-users"></i><span>Students</span>  
-                    </a>
-                </li>
-                
-               
-
-
-                
-                
-                    
+            
                 
             </ul>
             </section>

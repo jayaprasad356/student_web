@@ -1,18 +1,9 @@
 <?php 
-if (!isset($_SESSION['seller_id']) && !isset($_SESSION['seller_name'])) {
-    header("location:index.php");
-}
 include_once('../includes/crud.php');
 $db = new Database();
 $db->connect();
 $db->sql("SET NAMES 'utf8'");
 
-$Id = $_SESSION['seller_id'];
-$sql = "SELECT * FROM seller WHERE id=" . $Id;
-$db->sql($sql);
-$result = $db->getResult();
-$_SESSION['expiry_date'] = $result[0]['valid'];
-$path = 'upload/seller/';
 
 ?>
 <!DOCTYPE html>
@@ -102,24 +93,25 @@ $path = 'upload/seller/';
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.1/js/lightbox.min.js" integrity="sha256-CtKylYan+AJuoH8jrMht1+1PMhMqrKnB8K5g012WN5I=" crossorigin="anonymous"></script>
 </head>
 
-<body class="hold-transition skin-blue fixed sidebar-mini" >
+<body class="hold-transition skin-blue fixed sidebar-mini">
     <div class="wrapper">
         
         <header class="main-header">
             <!-- Logo -->
             <a href="home.php" class="logo">
+                
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini">
-                    <img src="../img/sminilogo.png"  alt="User Image">
+                    <img src="./img/sminilogo.png"  alt="User Image">
                     
                 </span>
                 <!-- logo for regular state and mobile devices -->
-                <img src="../img/slogo.png"  alt="User Image">
+                <img src="./img/slogo.png"  alt="User Image">
                 
                 <span class="logo-lg">
                 
                     
-                    <h3>Smart Gold</h3>
+                    <h3>Student</h3>
                 </span>
             </a>
             <!-- Header Navbar: style can be found in header.less -->
@@ -134,16 +126,16 @@ $path = 'upload/seller/';
                         
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <img src="<?php echo DOMAIN_URL . $path . $result[0]['logo'] ?>" class="user-image" alt="User Image">
-                                    <span class="hidden-xs"><?php echo $result[0]['store_name'] ?></span>
+                                    <img src="./img/logo.png" class="user-image" alt="User Image">
+                                   
                                 </a>
                                 <ul class="dropdown-menu">
                                     <!-- User image -->
                                     <li class="user-header">
-                                        <img src="<?php echo DOMAIN_URL . $path . $result[0]['logo'] ?>" class="img-circle" alt="User Image">
+                                        <img src="./img/logo.png" class="img-circle" alt="User Image">
                                         <p>
-                                            <?php echo $result[0]['store_name'] ?>
-                                            <small><?php echo $result[0]['email'] ?></small>
+                                            
+                                            <small><?php echo $_SESSION['email'] ?></small>
                                         </p>
                                     </li>
                                     <li class="user-footer">
@@ -151,9 +143,6 @@ $path = 'upload/seller/';
                                             <a href="admin-profile.php" class="btn btn-default btn-flat"> Edit Profile</a>
                                         </div> -->
                                         <div class="pull-left">
-                                            <a href="profile.php" class="btn btn-primary btn-flat">Profile</a>
-                                        </div>
-                                        <div class="pull-right">
                                             <a href="logout.php" class="btn btn-primary btn-flat">Log out</a>
                                         </div>
                                     </li>
@@ -166,17 +155,28 @@ $path = 'upload/seller/';
             </nav>
         </header>
         <!-- Left side column. contains the logo and sidebar -->
-        <aside class="main-sidebar" style="background-color:#3E2723#ffc282;">
+        <aside class="main-sidebar">
             <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
             
-            <ul class="sidebar-menu" >
+            <ul class="sidebar-menu">
                 <li class="treeview">
                     <a href="home.php">
                         <i class="fa fa-home" class="active"></i> <span>Home</span>
                     </a>
                 </li>
-            
+                <li class="treeview">
+                    <a href="students.php">
+                        <i class="fa fa-users"></i><span>Students</span>  
+                    </a>
+                </li>
+                
+               
+
+
+                
+                
+                    
                 
             </ul>
             </section>
